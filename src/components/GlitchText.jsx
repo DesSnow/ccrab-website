@@ -6,7 +6,7 @@ export default function GlitchText({ text, className = '', tag: Tag = 'span' }) 
   useEffect(() => {
     const interval = setInterval(() => {
       setGlitching(true)
-      setTimeout(() => setGlitching(false), 200)
+      setTimeout(() => setGlitching(false), 800)
     }, 4000 + Math.random() * 3000)
 
     return () => clearInterval(interval)

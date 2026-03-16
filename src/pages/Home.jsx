@@ -1,9 +1,11 @@
+import { useState, useEffect } from 'react'
 import { Swords, Compass, HeartPulse, Anchor, Users, Handshake, Skull, ShieldPlus } from 'lucide-react'
 import AnimatedOnScroll from '../components/AnimatedOnScroll'
 import GlitchText from '../components/GlitchText'
 import TypeWriter from '../components/TypeWriter'
 import TiltCard from '../components/TiltCard'
-import HudCorners from '../components/HudCorners'
+import LoreDashboard from '../components/LoreDashboard'
+import ScannerImage from '../components/ScannerImage'
 
 const divisions = [
   {
@@ -72,15 +74,49 @@ const advantages = [
 ]
 
 export default function Home() {
+  const [scrollY, setScrollY] = useState(0)
+  const [logoClicks, setLogoClicks] = useState(0)
+
+  const handleLogoClick = () => {
+    setLogoClicks(prev => prev + 1)
+    hudAudio.playUiBeep(400 + logoClicks * 100, 'square', 0.05)
+    if (logoClicks > 5) {
+      document.body.classList.add('self-destruct-active')
+      setTimeout(() => document.body.classList.remove('self-destruct-active'), 500)
+      setLogoClicks(0)
+    }
+  }
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY)
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
   return (
     <>
       {/* ===== HERO ===== */}
       <section className="hero" id="hero">
-        <div className="hero-bg-image" />
+        <div 
+          className="hero-bg-image" 
+          style={{ transform: `translateY(${scrollY * 0.35}px)` }}
+        />
         <div className="hero-bg-overlay" />
-        <div className="hero-grid" />
-        <div className="hero-content">
-          <img src="/assets/holo_crab.png" alt="CCRAB Hologram" className="hero-logo" />
+        <div className="hero-content" style={{ pointerEvents: 'none' }}>
+          <img 
+            src="/assets/holo_crab.png" 
+            alt="CCRAB Hologram" 
+            className="hero-logo" 
+            onClick={handleLogoClick}
+            style={{ 
+              cursor: 'pointer', 
+              transition: 'transform 0.2s, filter 0.2s', 
+              transform: `scale(${1 + logoClicks * 0.05})`,
+              pointerEvents: 'all',
+              position: 'relative',
+              zIndex: 10
+            }}
+          />
           <div className="hero-title-wrapper">
             <GlitchText text="CCRAB" tag="h1" className="hero-title" />
             <div className="hero-title-glow" />
@@ -124,14 +160,12 @@ export default function Home() {
         <div className="container">
           <div className="about-grid">
             <AnimatedOnScroll>
-              <div className="about-image-wrapper">
-                <HudCorners>
-                  <img
-                    src="/assets/crab_face_jaune.jpg"
-                    alt="CCRAB Mascotte"
-                    className="about-image"
-                  />
-                </HudCorners>
+              <div className="about-image-wrapper" style={{ transform: `translateY(${scrollY * 0.08}px)` }}>
+                <ScannerImage
+                  src="/assets/crab_face_jaune.jpg"
+                  alt="CCRAB Mascotte"
+                  className="about-image"
+                />
                 <div className="about-image-glow" />
               </div>
             </AnimatedOnScroll>
@@ -164,6 +198,8 @@ export default function Home() {
         </div>
       </section>
 
+      <LoreDashboard />
+
       {/* ===== DIVISIONS ===== */}
       <section className="section divisions" id="divisions">
         <div className="container">
@@ -180,23 +216,25 @@ export default function Home() {
           <div className="divisions-grid">
             {divisions.map((div, i) => (
               <AnimatedOnScroll key={div.id} delay={i + 1}>
-                <TiltCard
-                  className={`division-card ${div.className}`}
-                  id={`division-${div.id}`}
-                  glowColor={div.glowColor}
-                >
-                  <div className="division-card-bg">
-                    <img src={div.image} alt={div.acronym} />
-                  </div>
-                  <div className="division-card-inner">
-                    <div className="division-card-icon">
-                      <div.icon size={26} />
+                <div style={{ transform: `translateY(${(scrollY - 1500) * (i % 2 === 0 ? 0.08 : -0.06)}px)` }}>
+                  <TiltCard
+                    className={`division-card ${div.className}`}
+                    id={`division-${div.id}`}
+                    glowColor={div.glowColor}
+                  >
+                    <div className="division-card-bg">
+                      <img src={div.image} alt={div.acronym} />
                     </div>
-                    <GlitchText text={div.acronym} tag="div" className="division-card-acronym" />
-                    <div className="division-card-name">{div.name}</div>
-                    <p className="division-card-desc">{div.desc}</p>
-                  </div>
-                </TiltCard>
+                    <div className="division-card-inner">
+                      <div className="division-card-icon">
+                        <div.icon size={26} />
+                      </div>
+                      <GlitchText text={div.acronym} tag="div" className="division-card-acronym" />
+                      <div className="division-card-name">{div.name}</div>
+                      <p className="division-card-desc">{div.desc}</p>
+                    </div>
+                  </TiltCard>
+                </div>
               </AnimatedOnScroll>
             ))}
           </div>
@@ -205,7 +243,10 @@ export default function Home() {
 
       {/* ===== POURQUOI NOUS CHOISIR ===== */}
       <section className="section advantages" id="advantages">
-        <div className="advantages-bg-image" />
+        <div 
+          className="advantages-bg-image" 
+          style={{ transform: `translateY(${scrollY * 0.15}px)` }}
+        />
         <div className="container">
           <AnimatedOnScroll>
             <div className="section-title-wrapper">
@@ -235,40 +276,49 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== PARTENAIRES ===== */}
-      <section className="section partners" id="partners">
+      {/* ===== TEMOIGNAGES ===== */}
+      <section className="section testimonials" id="testimonials">
         <div className="container">
           <AnimatedOnScroll>
             <div className="section-title-wrapper">
               <h2 className="section-title">Ils nous ont fait confiance</h2>
-              <div className="section-line" />
             </div>
           </AnimatedOnScroll>
 
-          <AnimatedOnScroll delay={1}>
-            <div className="partners-logos">
-              <a
-                href="https://rei-jyun.fr/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="partner-item"
-                id="partner-rei"
-              >
-                <img src="/assets/rei.webp" alt="Rei Jyun" className="partner-logo" />
-                <span className="partner-name">Rei Jyun</span>
-              </a>
-              <a
-                href="https://rei-jyun.fr/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="partner-item"
-                id="partner-raccoon"
-              >
-                <img src="/assets/logo.png" alt="Raccoon Corporation" className="partner-logo" />
-                <span className="partner-name">Raccoon Corporation</span>
-              </a>
-            </div>
-          </AnimatedOnScroll>
+          <div className="testimonials-grid">
+            <AnimatedOnScroll delay={1}>
+              <div className="testimonial-card" id="testimonial-1">
+                <div className="testimonial-quote-icon">“</div>
+                <p className="testimonial-text">
+                  soon soon
+                </p>
+                <div className="testimonial-author">
+                  <img src="/assets/logo.png" alt="noname" className="testimonial-avatar" />
+                  <div className="testimonial-author-info">
+                    <span className="testimonial-author-name">noname</span>
+                  </div>
+                </div>
+              </div>
+            </AnimatedOnScroll>
+
+            <AnimatedOnScroll delay={2}>
+              <div className="testimonial-card" id="testimonial-2">
+                <div className="testimonial-quote-icon">“</div>
+                <p className="testimonial-text">
+                  Équipe dont la plupart des membres sont <GlitchText text="dérangés" tag="span" />. À chaque session, ils finiront toujours par partir de <GlitchText text="travers" tag="span" />, fou rire garanti. Cancers comme leur constellation, ils ont cependant le cœur sur la main, toujours prêts à aider. Contrairement à ce que l'on pourrait penser de ces <GlitchText text="décapodes" tag="span" />, ce sont loin d'être des pinces pour notre St Roberts (#4xsansfrais). Je recommande <GlitchText text="100 %" tag="span" />
+                </p>
+                <div className="testimonial-author">
+                  <img src="/assets/rei.webp" alt="Rei Jyun" className="testimonial-avatar" />
+                  <div className="testimonial-author-info">
+                    <span className="testimonial-author-name">Rei Jyun</span>
+                    <a href="https://rei-jyun.fr/" target="_blank" rel="noopener noreferrer" className="testimonial-author-corp">
+                      Raccoon Corporation
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </AnimatedOnScroll>
+          </div>
         </div>
       </section>
 

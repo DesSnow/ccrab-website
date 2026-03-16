@@ -12,8 +12,8 @@ export default function TiltCard({ children, className = '', id = '', glowColor 
     const y = e.clientY - rect.top
     const centerX = rect.width / 2
     const centerY = rect.height / 2
-    const rotateX = ((y - centerY) / centerY) * -8
-    const rotateY = ((x - centerX) / centerX) * 8
+    const rotateX = ((y - centerY) / centerY) * -4
+    const rotateY = ((x - centerX) / centerX) * 4
     const glowX = (x / rect.width) * 100
     const glowY = (y / rect.height) * 100
     setTilt({ rotateX, rotateY, glowX, glowY })
