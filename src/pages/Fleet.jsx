@@ -6,36 +6,36 @@ import { Rocket, Shield, Crosshair, Target } from 'lucide-react'
 
 const ships = [
   {
-    name: 'Idris-M',
-    model: 'Aegis Dynamics',
-    role: 'Frégate de Combat',
-    image: '/assets/idris.jpg',
-    stats: { armament: 'Heavy', shields: 'Max', speed: 'Low' },
-    desc: 'Le fleuron de notre flotte. Capable d\'annihiler des flottes entières tout en servant de bar à bières mobile.'
+    name: 'Cristaline "Classic"',
+    model: 'Source de Vie',
+    role: 'Hydratation Basique',
+    image: '/assets/bottle_cristaline.png',
+    stats: { hydration: 'High', style: 'Low', rarity: 'Common' },
+    desc: 'L\'alliée indispensable du gamer. Simple, efficace, et surtout oubliée à moitié vide sur le bureau depuis 3 jours.'
   },
   {
-    name: 'Carrack',
-    model: 'Anvil Aerospace',
-    role: 'Exploration Longue Portée',
-    image: '/assets/carrack.jpg',
-    stats: { armament: 'Medium', shields: 'High', speed: 'Medium' },
-    desc: 'Celui qui nous permet de nous perdre avec style dans les confins du Verse.'
+    name: 'Tactical Hydro-Crab',
+    model: 'CCRAB Industries',
+    role: 'Survie en Milieu Hostile',
+    image: '/assets/bottle_tactical.png',
+    stats: { hydration: 'Maximum', style: 'Extreme', rarity: 'Legendary' },
+    desc: 'En titane noir mat avec le logo CCRAB. Capable de résister à une explosion nucléaire ou à une chute du haut du Carrack.'
   },
   {
-    name: 'Ares Ion',
-    model: 'Crusader Industries',
-    role: 'Intercepteur de Capital Ships',
-    image: '/assets/ares.jpg',
-    stats: { armament: 'Extreme', shields: 'Medium', speed: 'High' },
-    desc: 'Un gros canon avec des moteurs autour. Idéal pour percer des trous dans ce qui ne nous plaît pas.'
+    name: 'Quantum Glitch Water',
+    model: 'CyberSource',
+    role: 'Énergie Bio-Digitale',
+    image: '/assets/bottle_glitch.png',
+    stats: { hydration: 'Glitchy', style: 'Cyberpunk', rarity: 'Epic' },
+    desc: 'Boire ce liquide vous permet de voir le code source de l\'univers. Attention : peut provoquer des déconnexions soudaines.'
   },
   {
-    name: 'C8X Pisces',
-    model: 'Anvil Aerospace',
-    role: 'Navette Médicale / Transport',
-    image: '/assets/pisces.jpg',
-    stats: { armament: 'Low', shields: 'Low', speed: 'Very High' },
-    desc: 'Petit, discret, et surtout indispensable pour ramasser les débris après une soirée trop arrosée.'
+    name: 'L\'Arist eau cratie',
+    model: 'Brachyura Luxury',
+    role: 'Dégustation Premium',
+    image: '/assets/bottle_luxury.png',
+    stats: { hydration: 'Bof', style: 'Infinite', rarity: 'Unique' },
+    desc: 'Une carafe en cristal pur pour les chevaliers qui refusent de boire dans du plastique. Le goût est le même, mais le prix est décuplé.'
   }
 ]
 
@@ -45,8 +45,8 @@ export default function Fleet() {
       <section className="hero-compact">
         <div className="container">
           <AnimatedOnScroll>
-            <GlitchText text="NOTRE FLOTTE" tag="h1" className="page-title" />
-            <p className="page-subtitle">La puissance de feu crustacée, de la navette à la frégate.</p>
+            <GlitchText text="NOTRE FLOTTE D'EAU" tag="h1" className="page-title" />
+            <p className="page-subtitle">Parce qu'un bon chevalier est un chevalier hydraté.</p>
           </AnimatedOnScroll>
         </div>
       </section>
@@ -70,16 +70,13 @@ export default function Fleet() {
                     <p className="ship-desc">{ship.desc}</p>
                     <div className="ship-stats">
                       <div className="ship-stat">
-                        <Shield size={12} />
-                        <span>Shields: {ship.stats.shields}</span>
+                        <span>💧 Hydration: {ship.stats.hydration}</span>
                       </div>
                       <div className="ship-stat">
-                        <Crosshair size={12} />
-                        <span>Armament: {ship.stats.armament}</span>
+                        <span>✨ Style: {ship.stats.style}</span>
                       </div>
                       <div className="ship-stat">
-                        <Target size={12} />
-                        <span>Speed: {ship.stats.speed}</span>
+                        <span>💎 Rarity: {ship.stats.rarity}</span>
                       </div>
                     </div>
                   </div>

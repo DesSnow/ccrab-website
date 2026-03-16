@@ -38,6 +38,18 @@ const events = [
     time: '19h00 CET',
     status: 'upcoming',
   },
+  {
+    id: 4,
+    title: 'Soirée Recrutement — Session ouverte',
+    description: 'Venez découvrir la CCRAB lors de notre session de recrutement ouverte. Ambiance garantie, niveau pas requis.',
+    date: '2026-04-25',
+    month: 'AVR',
+    day: '25',
+    year: '2026',
+    location: 'Discord CCRAB',
+    time: '19h00 CET',
+    status: 'past',
+  },
 ]
 
 export default function Events() {

@@ -6,6 +6,7 @@ import TypeWriter from '../components/TypeWriter'
 import TiltCard from '../components/TiltCard'
 import LoreDashboard from '../components/LoreDashboard'
 import ScannerImage from '../components/ScannerImage'
+import { hudAudio } from '../utils/AudioEngine'
 
 const divisions = [
   {
@@ -78,12 +79,21 @@ export default function Home() {
   const [logoClicks, setLogoClicks] = useState(0)
 
   const handleLogoClick = () => {
-    setLogoClicks(prev => prev + 1)
-    hudAudio.playUiBeep(400 + logoClicks * 100, 'square', 0.05)
-    if (logoClicks > 5) {
+    const nextClicks = logoClicks + 1
+    setLogoClicks(nextClicks)
+    
+    // Play feedback sound
+    hudAudio.playUiBeep(400 + logoClicks * 50, 'square', 0.05)
+    
+    if (nextClicks >= 7) {
+      console.log('CRITICAL FAILURE DETECTED! 🚨')
+      hudAudio.playAlarm(1.5) // Play 1.5s alarm
       document.body.classList.add('self-destruct-active')
-      setTimeout(() => document.body.classList.remove('self-destruct-active'), 500)
-      setLogoClicks(0)
+      
+      setTimeout(() => {
+        document.body.classList.remove('self-destruct-active')
+        setLogoClicks(0)
+      }, 3000) // Longer effect
     }
   }
 

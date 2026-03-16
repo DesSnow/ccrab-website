@@ -63,6 +63,13 @@ export default function Navbar() {
           >
             Flotte
           </Link>
+          <Link
+            to="/media"
+            className={`navbar-link ${location.pathname === '/media' ? 'active' : ''}`}
+            onMouseEnter={handleLinkHover}
+          >
+            Médias
+          </Link>
         </div>
 
         <div className="navbar-controls">
